@@ -376,9 +376,12 @@ if param_single_beat == 'y'
     if exist('non_regular_beat')==1
         nonRegBeat_all = [];
         for K = 1:length(non_regular_beat)
+            cell_traces_len(K) = length(non_regular_beat(K).cell_trace);
+        end
+        for K = 1:length(non_regular_beat)
             nonRegBeat = [];
-            v = zeros(2,length(non_regular_beat(K).cell_trace));
-            v(1,:) = non_regular_beat(K).cell_trace;
+            v = zeros(2,max(cell_traces_len));%length(non_regular_beat(K).cell_trace));
+            v(1,1:length(non_regular_beat(K).cell_trace)) = non_regular_beat(K).cell_trace;
             v(2,1:length(non_regular_beat(K).beat_trace)) = non_regular_beat(K).beat_trace;
             nonRegBeat = table([[{'cell ',num2str(non_regular_beat(K).cell_n)};...
                 {'beat ',num2str(non_regular_beat(K).beat_n)}],[{'EADs ',num2str(non_regular_beat(K).EAD)};...
