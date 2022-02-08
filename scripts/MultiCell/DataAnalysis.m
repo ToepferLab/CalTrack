@@ -526,7 +526,7 @@ for i=1:length(V)
         fit_a fit_c fit_rsquare BR t0 tend Cell_id BBdistance Nperiod CD CD90 CD50 CD10 Ton...
         Toff  Fmax_F0 ...
         T10on T50on T90on T10off ...
-        T50off T90off CaAmplitude
+        T50off T90off CaAmplitude SNR
     bb = 1;
     for file = 1:length(V(i).single_beat)
 
@@ -641,11 +641,7 @@ for i=1:length(V)
       T10on, T50on, T90on, T10off, ...
       T50off, T90off, tau, fit_a, fit_c,fit_rsquare, BR, t0, tend, BBdistance, Nperiod);%, BBtime_mean,Nperiod);
 
-      if exist('Cell_id') == 1
-        measurements_table([Cell_id],:) = [];
-      end
-      writetable(measurements_table, fullfile(path,'Calcium_measurements_forPlot.xlsx'),'Sheet',i );
-
+   
 
     matrix = [];
     matrix = V(i).single_beat;
@@ -656,6 +652,13 @@ for i=1:length(V)
     Signal_to_Noise_Ratio = table(SNRN);
 
     Signal_to_Noise_Ratio.Properties.VariableNames = {'Signal_to_Noise_Ratio'};
+    
+       if exist('Cell_id') == 1
+        measurements_table([Cell_id],:) = [];
+        Signal_to_Noise_Ratio([Cell_id],:) = [];
+      end
+      writetable(measurements_table, fullfile(path,'Calcium_measurements_forPlot.xlsx'),'Sheet',i );
+
     
     measurements_table = horzcat(measurements_table , Signal_to_Noise_Ratio);
 
